@@ -4,7 +4,15 @@ from urllib.request import urlopen
 from bs4 import BeautifulSoup
 
 
-def parsing_python_org_upcoming_events():
+URL = 'https://www.python.org/'
+
+
+def get_html(url):
+    """Получает html для заданного урла."""
+    return urlopen(url).read()
+
+
+def parsing_python_org_upcoming_events(html):
     """Выводит анонсированные события с python.org.
 
     Анонсированные события размещены в блоке 'Upcoming Events'.
@@ -14,8 +22,6 @@ def parsing_python_org_upcoming_events():
     В блоке перебираем все события в тегах li и выводим на печать события,
     месяц которых соответствует заданию.
     """
-    url = 'https://www.python.org/'
-    html = urlopen(url).read()
     soup = BeautifulSoup(html, 'html.parser')
 
     tags = soup.find_all('h2')
@@ -23,7 +29,6 @@ def parsing_python_org_upcoming_events():
         for string in tag.strings:
             if string == 'Upcoming Events':
                 upcoming_events_div = tag.parent
-
     events_list = upcoming_events_div.find_all('li')
     for event in events_list:
         event_date = dt.fromisoformat(event.time['datetime'])
@@ -34,5 +39,6 @@ def parsing_python_org_upcoming_events():
 
 
 if __name__ == "__main__":
-    for event in parsing_python_org_upcoming_events():
+    html = get_html(URL)
+    for event in parsing_python_org_upcoming_events(html):
         print(*event)
