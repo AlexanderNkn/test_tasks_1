@@ -15,3 +15,30 @@
 главной странице python.org. Вывод информации оформите по своему
 усмотрению. Выбор библиотек на ваше усмотрение. Желательно завернуть
 скрипт в докер контейнер, чтобы его можно было проверить на любой машине.
+
+### Решение
+Для проверки
+- склонируйте проект с реппозитория GitHub
+    ```
+    git clone https://github.com/AlexanderNkn/test_tasks_1.git
+    ```
+- перейдите в директорию test_tasks_1/
+    ```
+    cd test_tasks_1/
+    ```
+- соберите docker образ
+    ```
+    docker build -t test-tasks .
+    ```
+- запуск проверки логина
+    ```
+    docker run --rm -it test-tasks python3 login.py
+    ```
+- запуск тестов
+    ```
+    docker run --rm -it test-tasks pytest
+    ```
+- запуск парсера python.org
+    ```
+    docker run --rm -it test-tasks python3 parsing.py
+    ```
